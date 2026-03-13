@@ -38,25 +38,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#111111", // near-black background
+    backgroundColor: "#111111",
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     marginBottom: 40,
-    color: "#e9e0d5", // warm off-white
+    color: "#e9e0d5",
   },
   button: {
-    backgroundColor: "#D97706", // warm amber accent
+    backgroundColor: "#D97706",
     padding: 15,
     borderRadius: 8,
     marginVertical: 8,
     width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 3,
   },
   buttonText: {
     color: "#fff",

@@ -7,11 +7,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import * as yup from "yup";
+import { FormInput, FormSubmitButton } from "../components/forms";
+import { EmployeeFormValues } from "../types/forms";
 
 // Validation Schema
 const employeeValidationSchema = yup.object().shape({
@@ -31,16 +32,6 @@ const employeeValidationSchema = yup.object().shape({
   department: yup.string().required("Department is required"),
   startDate: yup.string().required("Please select a start date"),
 });
-
-// Type for form values
-interface EmployeeFormValues {
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-  position: string;
-  department: string;
-  startDate: string;
-}
 
 export default function EmployeeFormScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -75,116 +66,36 @@ export default function EmployeeFormScreen() {
         validationSchema={employeeValidationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          handleChange,
-          handleBlur,
-          setFieldValue,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          isValid,
-        }) => (
+        {({ setFieldValue, values, errors, touched, isValid }) => (
           <View>
-            {/* Full Name */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Full Name *</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  touched.fullName && errors.fullName && styles.inputError,
-                ]}
-                value={values.fullName}
-                onChangeText={handleChange("fullName")}
-                onBlur={handleBlur("fullName")}
-                placeholder="Enter full name"
-                placeholderTextColor="#666"
-              />
-              {touched.fullName && errors.fullName && (
-                <Text style={styles.errorText}>{errors.fullName}</Text>
-              )}
-            </View>
-
-            {/* Email */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Email *</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  touched.email && errors.email && styles.inputError,
-                ]}
-                value={values.email}
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                placeholder="Enter email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                placeholderTextColor="#666"
-              />
-              {touched.email && errors.email && (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              )}
-            </View>
-
-            {/* Phone Number */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Phone Number *</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  touched.phoneNumber &&
-                    errors.phoneNumber &&
-                    styles.inputError,
-                ]}
-                value={values.phoneNumber}
-                onChangeText={handleChange("phoneNumber")}
-                onBlur={handleBlur("phoneNumber")}
-                placeholder="+1 234 567 8900"
-                keyboardType="phone-pad"
-                placeholderTextColor="#666"
-              />
-              {touched.phoneNumber && errors.phoneNumber && (
-                <Text style={styles.errorText}>{errors.phoneNumber}</Text>
-              )}
-            </View>
-
-            {/* Position */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Position *</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  touched.position && errors.position && styles.inputError,
-                ]}
-                value={values.position}
-                onChangeText={handleChange("position")}
-                onBlur={handleBlur("position")}
-                placeholder="Enter position"
-                placeholderTextColor="#666"
-              />
-              {touched.position && errors.position && (
-                <Text style={styles.errorText}>{errors.position}</Text>
-              )}
-            </View>
-
-            {/* Department */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Department *</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  touched.department && errors.department && styles.inputError,
-                ]}
-                value={values.department}
-                onChangeText={handleChange("department")}
-                onBlur={handleBlur("department")}
-                placeholder="Enter department"
-                placeholderTextColor="#666"
-              />
-              {touched.department && errors.department && (
-                <Text style={styles.errorText}>{errors.department}</Text>
-              )}
-            </View>
+            <FormInput
+              name="fullName"
+              label="Full Name *"
+              placeholder="Enter full name"
+            />
+            <FormInput
+              name="email"
+              label="Email *"
+              placeholder="Enter email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <FormInput
+              name="phoneNumber"
+              label="Phone Number *"
+              placeholder="+1 234 567 8900"
+              keyboardType="phone-pad"
+            />
+            <FormInput
+              name="position"
+              label="Position *"
+              placeholder="Enter position"
+            />
+            <FormInput
+              name="department"
+              label="Department *"
+              placeholder="Enter department"
+            />
 
             {/* Start Date */}
             <View style={styles.inputContainer}>
@@ -230,14 +141,7 @@ export default function EmployeeFormScreen() {
               )}
             </View>
 
-            {/* Submit Button */}
-            <TouchableOpacity
-              style={[styles.button, !isValid && styles.buttonDisabled]}
-              onPress={() => handleSubmit()}
-              disabled={!isValid}
-            >
-              <Text style={styles.buttonText}>Submit Employee Information</Text>
-            </TouchableOpacity>
+            <FormSubmitButton title="Submit Employee Information" />
           </View>
         )}
       </Formik>
@@ -267,19 +171,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     color: "#cdbdb5",
   },
-  input: {
-    height: 48,
-    borderWidth: 1,
-    borderColor: "#474040",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    backgroundColor: "#1a1a1a",
-    color: "#f7efe8",
-    fontSize: 16,
-  },
-  inputError: {
-    borderColor: "#ff8a65",
-  },
   dateButton: {
     height: 48,
     borderWidth: 1,
@@ -304,22 +195,5 @@ const styles = StyleSheet.create({
     color: "#ff8a65",
     fontSize: 12,
     marginTop: 4,
-  },
-  button: {
-    backgroundColor: "#D97706",
-    height: 48,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    marginBottom: 30,
-  },
-  buttonDisabled: {
-    backgroundColor: "#555",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
   },
 });
