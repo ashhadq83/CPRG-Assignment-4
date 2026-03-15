@@ -59,13 +59,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  subtitle: {
-    fontSize: 16,
-    color: "#6B7280",
-    marginBottom: 28,
-    textAlign: "center",
-  },
-
   button: {
     paddingVertical: 15,
     borderRadius: 10,
@@ -80,5 +73,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  subtitle: {
+    fontSize: 16,
+    color: "#6B7280",
+    marginBottom: 28,
+    textAlign: "center",
   },
 });
