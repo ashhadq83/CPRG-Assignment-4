@@ -45,7 +45,11 @@ export default function SignUpScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.headerContainer}>
         <Text style={styles.title}>Create Account</Text>
         <Text style={styles.subtitle}>Sign up to get started</Text>
@@ -64,6 +68,7 @@ export default function SignUpScreen() {
               placeholder="Enter your full name"
               autoCapitalize="words"
             />
+
             <FormInput
               name="email"
               label="Email *"
@@ -71,16 +76,19 @@ export default function SignUpScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
             />
+
             <FormPasswordInput
               name="password"
               label="Password *"
               placeholder="Create a password"
             />
+
             <FormPasswordInput
               name="confirmPassword"
               label="Confirm Password *"
               placeholder="Confirm your password"
             />
+
             <FormSubmitButton title="Create Account" />
           </View>
         )}
@@ -92,21 +100,30 @@ export default function SignUpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#111111",
+    backgroundColor: "#F9FAF7",
   },
+
+  contentContainer: {
+    padding: 20,
+    paddingBottom: 30,
+  },
+
   headerContainer: {
     marginBottom: 32,
     alignItems: "center",
   },
+
   title: {
     fontSize: 32,
-    fontWeight: "bold",
-    color: "#e9e0d5",
+    fontWeight: "800",
+    color: "#1F2933",
     marginBottom: 8,
+    textAlign: "center",
   },
+
   subtitle: {
     fontSize: 16,
-    color: "#cdbdb5",
+    color: "#6B7280",
+    textAlign: "center",
   },
 });

@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import { FormSubmitButtonProps } from "../../types/forms";
 
 export const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({
@@ -9,31 +9,36 @@ export const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({
   const { handleSubmit, isValid } = useFormikContext();
 
   return (
-    <TouchableOpacity
-      style={[styles.button, !isValid && styles.buttonDisabled]}
+    <Pressable
+      style={({ pressed }) => [
+        styles.button,
+        {
+          backgroundColor: !isValid
+            ? "#9CA3AF"
+            : pressed
+            ? "#5EE860"
+            : "#056906",
+        },
+      ]}
       onPress={() => handleSubmit()}
       disabled={!isValid}
     >
       <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#D97706",
-    height: 48,
-    borderRadius: 8,
+    height: 50,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
     marginBottom: 30,
   },
-  buttonDisabled: {
-    backgroundColor: "#555",
-  },
   buttonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
   },

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -8,26 +8,37 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>FormFlow</Text>
 
-      <TouchableOpacity
-        style={styles.button}
+      <Text style={styles.subtitle}>Choose an option below to continue</Text>
+
+          <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: pressed ? "#5EE860" : "#056906" },
+        ]}
         onPress={() => router.push("/employee-form")}
       >
         <Text style={styles.buttonText}>Employee Form</Text>
-      </TouchableOpacity>
+      </Pressable>
 
-      <TouchableOpacity
-        style={styles.button}
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: pressed ? "#5EE860" : "#056906" },
+        ]}
         onPress={() => router.push("/sign-in")}
       >
         <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
+      </Pressable>
 
-      <TouchableOpacity
-        style={styles.button}
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: pressed ? "#5EE860" : "#056906" },
+        ]}
         onPress={() => router.push("/sign-up")}
       >
         <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
@@ -36,25 +47,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#111111",
+    paddingHorizontal: 20,
+    backgroundColor: "#F9FAF7",
   },
+
   title: {
     fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 40,
-    color: "#e9e0d5",
+    fontWeight: "800",
+    marginBottom: 12,
+    color: "#1F2933",
+    textAlign: "center",
   },
+
+  subtitle: {
+    fontSize: 16,
+    color: "#6B7280",
+    marginBottom: 28,
+    textAlign: "center",
+  },
+
   button: {
-    backgroundColor: "#D97706",
-    padding: 15,
-    borderRadius: 8,
+    paddingVertical: 15,
+    borderRadius: 10,
     marginVertical: 8,
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
+
   buttonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     textAlign: "center",
     fontSize: 16,
     fontWeight: "600",

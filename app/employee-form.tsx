@@ -27,7 +27,8 @@ const employeeValidationSchema = yup.object().shape({
   phoneNumber: yup
     .string()
     .required("Phone number is required")
-    .matches(/^[0-9+\-\s()]+$/, "Invalid phone number format"),
+    .matches(/^[0-9+\-\s()]+$/, "Invalid phone number format")
+    .min(10, "Phone number must be at least 10 digits"),
   position: yup.string().required("Position is required"),
   department: yup.string().required("Department is required"),
   startDate: yup.string().required("Please select a start date"),
@@ -54,7 +55,10 @@ export default function EmployeeFormScreen() {
   };
 
   const formatDate = (date: Date) => {
-    return date.toISOString().split("T")[0];
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -65,6 +69,7 @@ export default function EmployeeFormScreen() {
         initialValues={initialValues}
         validationSchema={employeeValidationSchema}
         onSubmit={handleSubmit}
+        validateOnMount
       >
         {({ setFieldValue, values, errors, touched, isValid }) => (
           <View>
@@ -119,21 +124,33 @@ export default function EmployeeFormScreen() {
               </TouchableOpacity>
 
               {showDatePicker && (
-                <DateTimePicker
-                  value={tempDate}
-                  mode="date"
-                  display={Platform.OS === "ios" ? "spinner" : "calendar"}
-                  onChange={(event, selectedDate) => {
-                    if (Platform.OS === "android") {
-                      setShowDatePicker(false);
-                    }
-                    if (selectedDate) {
-                      setTempDate(selectedDate);
-                      setFieldValue("startDate", formatDate(selectedDate));
-                    }
-                  }}
-                  themeVariant="dark"
-                />
+                <View style={styles.datePickerContainer}>
+                  <DateTimePicker
+                    value={tempDate}
+                    mode="date"
+                    display={Platform.OS === "ios" ? "spinner" : "calendar"}
+                    onChange={(event, selectedDate) => {
+                      if (Platform.OS === "android") {
+                        setShowDatePicker(false);
+                      }
+
+                      if (selectedDate) {
+                        setTempDate(selectedDate);
+                        setFieldValue("startDate", formatDate(selectedDate));
+                      }
+                    }}
+                    themeVariant="light"
+                  />
+
+                  {Platform.OS === "ios" && (
+                    <TouchableOpacity
+                      style={styles.doneButton}
+                      onPress={() => setShowDatePicker(false)}
+                    >
+                      <Text style={styles.doneButtonText}>Done</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               )}
 
               {touched.startDate && errors.startDate && (
@@ -153,47 +170,67 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#111111",
+    backgroundColor: "#F9FAF7",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "#e9e0d5",
+    color: "#1F2937",
   },
   inputContainer: {
     marginBottom: 16,
   },
   label: {
     fontSize: 14,
-    fontWeight: "500",
-    marginBottom: 4,
-    color: "#cdbdb5",
+    fontWeight: "600",
+    marginBottom: 6,
+    color: "#1F2937",
   },
   dateButton: {
     height: 48,
     borderWidth: 1,
-    borderColor: "#474040",
+    borderColor: "#DDE392",
     borderRadius: 8,
     paddingHorizontal: 12,
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
   },
   dateButtonError: {
-    borderColor: "#ff8a65",
+    borderColor: "#DC2626",
   },
   dateText: {
     fontSize: 16,
-    color: "#f7efe8",
+    color: "#1F2937",
   },
   placeholderText: {
     fontSize: 16,
-    color: "#888",
+    color: "#6B7280",
   },
   errorText: {
-    color: "#ff8a65",
+    color: "#DC2626",
     fontSize: 12,
     marginTop: 4,
+  },
+  datePickerContainer: {
+    marginTop: 10,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    padding: 10,
+  },
+
+  doneButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
+    backgroundColor: "#3B5249",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+
+  doneButtonText: {
+    color: "#FFFFFF",
+    fontWeight: "600",
   },
 });

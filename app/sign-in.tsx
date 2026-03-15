@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import * as yup from "yup";
-import { FormInput, FormSubmitButton } from "../components/forms";
+import { FormInput, FormPasswordInput, FormSubmitButton } from "../components/forms";
 import { SignInFormValues } from "../types/forms";
 
 // Validation Schema
@@ -31,7 +31,8 @@ export default function SignInScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>Welcome Back</Text>
         <Text style={styles.subtitle}>Sign in to continue</Text>
@@ -51,11 +52,10 @@ export default function SignInScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
             />
-            <FormInput
+            <FormPasswordInput
               name="password"
               label="Password *"
               placeholder="Enter your password"
-              secureTextEntry
             />
             <FormSubmitButton title="Sign In" />
           </View>
@@ -68,8 +68,11 @@ export default function SignInScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#F9FAF7",
+  },
+  contentContainer: {
     padding: 20,
-    backgroundColor: "#111111",
+    paddingBottom: 30,
   },
   headerContainer: {
     marginBottom: 32,
@@ -77,12 +80,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: "bold",
-    color: "#e9e0d5",
+    fontWeight: "800",
+    color: "#1F2933",
     marginBottom: 8,
+      textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
-    color: "#cdbdb5",
+    color: "#6B7280",
+    textAlign: "center",
   },
 });

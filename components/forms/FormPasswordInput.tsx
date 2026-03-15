@@ -15,6 +15,8 @@ export const FormPasswordInput: React.FC<FormPasswordInputProps> = ({
   placeholder,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [focused, setFocused] = useState(false);
+
   const { values, handleChange, handleBlur, errors, touched } =
     useFormikContext<any>();
   const hasError = touched[name] && errors[name];
@@ -22,24 +24,39 @@ export const FormPasswordInput: React.FC<FormPasswordInputProps> = ({
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={[styles.passwordContainer, hasError && styles.inputError]}>
+
+      <View
+        style={[
+          styles.passwordContainer,
+          focused && styles.inputFocused,
+          hasError && styles.inputError,
+        ]}
+      >
         <TextInput
           style={styles.passwordInput}
-          value={values[name]}
+          value={values[name]?.toString() ?? ""}
           onChangeText={handleChange(name)}
-          onBlur={handleBlur(name)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => {
+            handleBlur(name);
+            setFocused(false);
+          }}
           placeholder={placeholder}
-          placeholderTextColor="#666"
+          placeholderTextColor="#6B7280"
           secureTextEntry={!showPassword}
           autoCapitalize="none"
         />
+
         <TouchableOpacity
           style={styles.eyeButton}
           onPress={() => setShowPassword(!showPassword)}
         >
-          <Text style={styles.eyeButtonText}>{showPassword ? "👁️" : "👁️‍🗨️"}</Text>
+          <Text style={styles.eyeButtonText}>
+            {showPassword ? "👁️" : "👁️‍🗨️"}
+          </Text>
         </TouchableOpacity>
       </View>
+
       {hasError && (
         <Text style={styles.errorText}>{errors[name] as string}</Text>
       )}
@@ -49,40 +66,53 @@ export const FormPasswordInput: React.FC<FormPasswordInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: 18,
   },
+
   label: {
     fontSize: 14,
-    fontWeight: "500",
-    marginBottom: 4,
-    color: "#cdbdb5",
+    fontWeight: "600",
+    marginBottom: 6,
+    color: "#1F2933",
   },
+
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#474040",
-    borderRadius: 8,
-    backgroundColor: "#1a1a1a",
+    borderColor: "#D9DDD3",
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
   },
+
   passwordInput: {
     flex: 1,
     height: 48,
-    paddingHorizontal: 12,
-    color: "#f7efe8",
+    paddingHorizontal: 14,
+    color: "#1F2933",
     fontSize: 16,
   },
+
   eyeButton: {
     paddingHorizontal: 12,
     height: 48,
     justifyContent: "center",
+    alignItems: "center",
   },
+
   eyeButtonText: {
-    fontSize: 20,
+    fontSize: 18,
   },
+
+  inputFocused: {
+    borderColor: "#D8B95A",
+    borderWidth: 2,
+  },
+
   inputError: {
     borderColor: "#ff8a65",
   },
+
   errorText: {
     color: "#ff8a65",
     fontSize: 12,
