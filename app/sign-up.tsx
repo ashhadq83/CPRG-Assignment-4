@@ -113,17 +113,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  subtitle: {
+    fontSize: 16,
+    color: "#6B7280",
+    textAlign: "center",
+  },
+
   title: {
     fontSize: 32,
     fontWeight: "800",
     color: "#1F2933",
     marginBottom: 8,
-    textAlign: "center",
-  },
-
-  subtitle: {
-    fontSize: 16,
-    color: "#6B7280",
     textAlign: "center",
   },
 });
